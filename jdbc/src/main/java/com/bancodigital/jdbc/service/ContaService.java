@@ -4,11 +4,14 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.bancodigital.jdbc.dto.ProdutoBancarioDTO;
 import com.bancodigital.jdbc.exception.BancoDadosException;
 import com.bancodigital.jdbc.exception.RegraNegocioException;
+import com.bancodigital.jdbc.feign.ProdutoBancarioClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.bancodigital.jdbc.dao.ClienteDAO;
@@ -17,7 +20,6 @@ import com.bancodigital.jdbc.dto.ContaDTO;
 import com.bancodigital.jdbc.mapper.ContaMapper;
 import com.bancodigital.jdbc.model.Cliente;
 import com.bancodigital.jdbc.model.Conta;
-
 
 @Service
 public class ContaService {
@@ -28,8 +30,18 @@ public class ContaService {
     @Autowired
     private ClienteDAO clienteDAO;
 
+    private final ProdutoBancarioClient produtoClient;
+
+    public ContaService(ProdutoBancarioClient produtoClient) {
+        this.produtoClient = produtoClient;
+    }
+
     private static final Logger logger = LoggerFactory.getLogger(ContaService.class);
 
+    @Cacheable(value = "produtosCache", key = "'todosProdutos'")
+    public List<ProdutoBancarioDTO> obterProdutosParaConta() {
+        return produtoClient.listarTodosProdutos();
+    }
 
     public void criarConta(ContaDTO dto) throws SQLException {
         Cliente cliente = clienteDAO.buscarClientePorId(dto.clienteId());
