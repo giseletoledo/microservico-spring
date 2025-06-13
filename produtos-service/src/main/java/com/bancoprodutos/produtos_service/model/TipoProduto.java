@@ -1,4 +1,9 @@
 package com.bancoprodutos.produtos_service.model;
 
-public class TipoProduto {
+public enum TipoProduto {
+    EMPRESTIMO_PESSOAL,
+    CREDITO_CONSIGNADO,
+    FINANCIAMENTO_IMOBILIARIO,
+    INVESTIMENTO,
+    OUTROS
 }
