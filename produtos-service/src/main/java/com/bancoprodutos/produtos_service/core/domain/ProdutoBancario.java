@@ -1,14 +1,19 @@
-package com.bancoprodutos.produtos_service.domain;
+package com.bancoprodutos.produtos_service.core.domain;
+
+import com.bancoprodutos.produtos_service.model.TipoProduto;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class ProdutoBancario {
     private Long id;
     private String nome;
     private String descricao;
-    private String tipo;
-    private double taxa;
+    private TipoProduto tipo;
+    private BigDecimal taxaJuros;
+    private LocalDateTime dataCriacao;
 
     // Getters e Setters
-
     public Long getId() {
         return id;
     }
@@ -33,20 +38,28 @@ public class ProdutoBancario {
         this.descricao = descricao;
     }
 
-    public String getTipo() {
+    public TipoProduto getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(TipoProduto tipo) {
         this.tipo = tipo;
     }
 
-    public double getTaxa() {
-        return taxa;
+    public BigDecimal getTaxaJuros() {
+        return taxaJuros;
     }
 
-    public void setTaxa(double taxa) {
-        this.taxa = taxa;
+    public void setTaxaJuros(BigDecimal taxaJuros) {
+        this.taxaJuros = taxaJuros;
+    }
+
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
 
     @Override
@@ -55,8 +68,9 @@ public class ProdutoBancario {
                "id=" + id +
                ", nome='" + nome + '\'' +
                ", descricao='" + descricao + '\'' +
-               ", tipo='" + tipo + '\'' +
-               ", taxa=" + taxa +
+               ", tipo=" + tipo +
+               ", taxaJuros=" + taxaJuros +
+               ", dataCriacao=" + dataCriacao +
                '}';
     }
 }
