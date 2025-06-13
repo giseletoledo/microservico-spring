@@ -1,12 +1,16 @@
 package com.bancoprodutos.produtos_service.core.service;
 
+import com.bancoprodutos.produtos_service.core.domain.ProdutoBancario;
 import com.bancoprodutos.produtos_service.core.usecase.ProdutoService;
-import com.bancoprodutos.produtos_service.dto.ProdutoDTO;
+import com.bancoprodutos.produtos_service.dto.request.ProdutoRequest;
+import com.bancoprodutos.produtos_service.dto.response.ProdutoResponse;
 import com.bancoprodutos.produtos_service.mapper.ProdutoMapper;
 import com.bancoprodutos.produtos_service.repository.ProdutoRepository;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Service
 public class ProdutoServiceImpl implements ProdutoService {
 
     private final ProdutoRepository repository;
@@ -17,15 +21,17 @@ public class ProdutoServiceImpl implements ProdutoService {
         this.mapper = mapper;
     }
 
-    public List<ProdutoDTO> listarProdutos() {
+    @Override
+    public List<ProdutoResponse> listarProdutos() {
         return repository.findAll().stream()
-                .map(mapper::toDTO)
-                .collect(Collectors.toList());
+                .map(mapper::toResponse)
+                .toList();
     }
 
-    public ProdutoDTO salvarProduto(ProdutoDTO dto) {
-        var entity = mapper.toEntity(dto);
-        var salvo = repository.save(entity);
-        return mapper.toDTO(salvo);
+    @Override
+    public ProdutoResponse salvarProduto(ProdutoRequest request) {
+        ProdutoBancario domain = mapper.requestToDomain(request);
+        ProdutoBancario saved = repository.save(domain);
+        return mapper.toResponse(saved);
     }
 }

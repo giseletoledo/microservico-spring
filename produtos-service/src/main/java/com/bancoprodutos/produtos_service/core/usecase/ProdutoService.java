@@ -1,10 +1,12 @@
 package com.bancoprodutos.produtos_service.core.usecase;
 
-import com.bancoprodutos.produtos_service.dto.ProdutoDTO;
+import com.bancoprodutos.produtos_service.dto.request.ProdutoRequest;
+import com.bancoprodutos.produtos_service.dto.response.ProdutoResponse;
+
 import java.util.List;
 
 public interface ProdutoService {
-    List<ProdutoDTO> listarProdutos();
-    ProdutoDTO salvarProduto(ProdutoDTO dto);
+    List<ProdutoResponse> listarProdutos();
+    ProdutoResponse salvarProduto(ProdutoRequest request);
 }
 
